@@ -1,0 +1,135 @@
+@media (min-width: 768px) {
+	.modal-dialog {
+		width: 730px;
+		margin: 20px auto;
+	}
+	
+	.link-more-products-box .product-image {
+		min-height: 148px;
+	}
+	
+	.link-more-products-box .product-deatil h5 a {
+		font-size: 11px;
+	}
+}
+
+@media (min-width: 991px) {
+	.modal-dialog {
+		width: 950px;
+		margin: 20px auto;
+	}
+	
+	.link-more-products-box .product-image {
+		min-height: 203px;
+	}
+	
+	.link-more-products-box .product-deatil h5 a {
+		font-size: 16px;
+	}
+}
+
+@media (min-width: 1200px) {
+	.modal-dialog {
+		width: 1170px;
+		margin: 20px auto;
+	}
+	
+	.link-more-products-box .product-image {
+		min-height: 162px;
+	}
+	
+	.link-more-products-box .product-deatil h5 a {
+		font-size: 12px;
+	}
+}
+
+@media (max-width: 979px) {
+	.dropzone .dz-default.dz-message {
+		width: auto;
+		height: auto;
+		margin-left: 0px;
+		margin-top: 0px;
+	}
+}
+
+@media only screen and (max-width: 679px) and (min-width: 0) {
+	.header-dropdown-list a span {
+		display:none;
+	}
+	
+	.btn-header {
+		margin-right: 10px;
+		margin-left: 10px;
+	}
+	
+	#hide-menu>:first-child>a, .btn-header a {
+    	margin-top: 10px!important;
+	}
+	
+	.header-search>button {
+		top: 10px;
+	}
+	
+	#logo-group.notification-area {
+		width:auto !important;
+	}
+	
+	.ajax-dropdown {
+		right: -68px;
+		left: initial;
+	}
+	
+	.ajax-dropdown:before, .ajax-dropdown:after {
+		left: 238px;
+	}
+	
+	.link-more-products-box .product-image {
+		min-height: 109px;
+	}
+	
+	.link-more-products-box .product-deatil h5 a {
+		font-size: 12px;
+	}
+	
+	.modal-body {
+	    max-height: 410px;
+	}
+	
+	.pr-right-box1 {
+		margin-top:20px;
+	}
+}
+
+@media only screen and (max-width: 479px) and (min-width: 320px) {
+	#search-mobile {
+		margin-right: 0;
+	}
+	
+	#logo-group span#activity {
+		margin-right: 7px;
+	}
+	
+	.btn-header {
+		margin-right: 0;
+		margin-left: 4px;
+	}
+	
+	#hide-menu>:first-child>a {
+		width: 36px!important;
+		font-size: 18px;
+	}
+	
+	.ajax-dropdown {
+		right: -68px;
+		left: initial;
+	}
+	
+	.ajax-dropdown:before, .ajax-dropdown:after {
+		left: 234px;
+	}
+	
+	.select-small-padding {
+		padding-left: 5px;
+		padding-right: 0;
+	}
+}
