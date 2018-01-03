@@ -5,7 +5,79 @@ $rest = new RestService();
 $area = $rest->get('http://ec2-52-14-250-16.us-east-2.compute.amazonaws.com:3000/area/');
 $area = $area->data;
 
-
+if($_POST)
+{
+	
+	$name = $_POST['name'];
+	$areaId = $_POST['areaId'];
+	if($name == "" || $areaId == ""){
+		echo "<script>alert('please fill all fields')</script>";
+	}
+	else{
+		$data['name'] = $name;
+		$data['areaId'] = $areaId;
+		
+		$count = count($_POST['cat_area']);
+		// echo $count;
+		// exit;
+		
+		$district = $rest->post('http://ec2-52-14-250-16.us-east-2.compute.amazonaws.com:3000/district/','',$data);
+		
+		if($district->success == true)
+		{
+			// print_r($district->data);
+			$distId = $district->data->_id;
+			$count = count($_POST['cat_area']);
+		
+		for($a=0; $a < $count; $a++)
+		{
+			if($_POST['cat_area'][$a] == "")
+			{
+				continue;
+			}
+			else{
+				$data1['id'] = $distId;
+				$data1['categoryId'] = $_POST['cat_area'][$a];
+				$data1['priceEffective'] = $_POST['priceEffective'][$a];
+				$data1['priceGeneral'] = $_POST['priceGeneral'][$a];
+				$data1['priceCategory'] = $_POST['priceCategory'][$a];
+				$data1['priceAvg'] = $_POST['priceAvg'][$a];
+				
+				$districtCat = $rest->post("http://ec2-52-14-250-16.us-east-2.compute.amazonaws.com:3000/district/insert_category/$distId",'',$data1);
+			}
+		}
+		
+			$distData = $rest->get('http://ec2-52-14-250-16.us-east-2.compute.amazonaws.com:3000/district/');
+			$distData = $distData->data;
+			// print_r($distData);
+			// exit;
+			echo "<script>alert('done')</script>";
+		}
+		else{
+			echo "<script>alert('some error occured. please try again')</script>";
+		}
+		
+		
+		echo "<pre>";
+		print_r($data);
+		echo "<br>";
+		echo json_encode($data);
+		exit;
+		// $cat = $rest->post('http://ec2-52-14-250-16.us-east-2.compute.amazonaws.com:3000/category/','',$data);
+		
+		// if($cat->success == true)
+		// {
+			// echo "<script>alert('done')</script>";
+		// }
+		// else{
+			// echo "<script>alert('some error occured. please try again')</script>";
+		// }
+		
+		// exit;
+		
+	}
+	
+}
 
 ?>
 
@@ -250,20 +322,19 @@ $area = $area->data;
               <div class="widget-body">
                 <div class="row">
                   <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <form>
+                    <form id="form" name="form" method="POST" >
                       <fieldset>
-                        <input name="authenticity_token" type="hidden">
                         <div class="row">
                           <div class="col-md-6 col-sm-6">
                             <div class="form-group">
                               <label>District Name</label>
-                              <input class="form-control" placeholder="" type="text">
+                              <input class="form-control" placeholder="" type="text" name="name" id="name">
                             </div>
                           </div>
                           <div class="col-md-6 col-sm-6">
                             <label>Area</label>
                             <div class="form-group">
-                              <select class="form-control" id="area" name="area" onchange="UserAction(this.value)">
+                              <select class="form-control" id="areaId" name="areaId" onchange="UserAction(this.value)">
                                 <option value="">Select Area</option>
                                 <?php for($i=0; $i < count($area); $i++ ){
 								?>
@@ -277,46 +348,56 @@ $area = $area->data;
 						<div class="row">
 					  <h2> &nbsp;&nbsp;&nbsp;<strong>Map Categories</strong></h2>
                   <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    
+                    <?php 
+					
+					for($i=0; $i < 10; $i++) {
+					?>
+					<hr>
                       <fieldset>
-                        <input name="authenticity_token" type="hidden">
                         <div class="row">
-                          <div class="col-md-3 col-sm-6">
+                          <div class="col-md-2 col-sm-6">
                               <label>Category</label>
                             <div class="form-group">
-                              <select class="form-control" id="cat_area" name="">
+                              <select class="form-control" id="cat_area_<?php echo $i?>" name="cat_area[]">
                                 <option value="">Select Category</option>
                               </select>
                             </div>
                             </div>
-                          <div class="col-md-3 col-sm-6">
+                          <div class="col-md-2 col-sm-6">
                             <div class="form-group">
-                              <label>Phone Number</label>
-                              <input class="form-control" placeholder="" type="text">
+                              <label>Price Effective</label>
+                              <input class="form-control" placeholder="" type="text" name="priceEffective[]" id="priceEffective">
                             </div>
                           </div>
-						  <div class="col-md-3 col-sm-6">
+						  <div class="col-md-2 col-sm-6">
                             <div class="form-group">
-                              <label>Phone Number</label>
-                              <input class="form-control" placeholder="" type="text">
+                              <label>Price General</label>
+                              <input class="form-control" placeholder="" type="text" name="priceGeneral[]" id="priceGeneral">
                             </div>
                           </div>
-						  <div class="col-md-3 col-sm-6">
+						  <div class="col-md-2 col-sm-6">
                             <div class="form-group">
-                              <label>Phone Number</label>
-                              <input class="form-control" placeholder="" type="text">
+                              <label>Price Category</label>
+                              <input class="form-control" placeholder="" type="text" id="priceCategory" name="priceCategory[]">
+                            </div>
+                          </div>
+						  <div class="col-md-2 col-sm-6">
+                            <div class="form-group">
+                              <label>Price Average</label>
+                              <input class="form-control" placeholder="" type="text" id="priceAvg" name="priceAvg[]">
                             </div>
                           </div>
 						  
                         </div>
 						
 						</fieldset>
+						
+						<?php }?>
                     </form>
                   </div>
                 </div>
 				
                         <button class="btn btn-primary" type="submit">Save</button>
-                        <button class="btn btn-default" type="submit">Cancel</button>
                       </fieldset>
                     </form>
                   </div>
@@ -465,6 +546,23 @@ function UserAction(id) {
     xhttp.send();
     var response = JSON.parse(xhttp.responseText);
 	console.log(response); 
+	
+	<?
+	for($z=0; $z < 10; $z++)
+	{
+	?>
+	var select = $('#cat_area_<?php echo $z ?>');
+
+	select.empty();
+	select.append('<option value="">Select Category</option>');
+
+	if (response.success == true) {
+		$.each(response.data, function (i, fb) {
+			select.append('<option value="' + fb._id + '">' + fb.name + '</option>');
+		});
+	}
+	
+	<?php } ?>
 }
 
 			$(document).ready(function() {
